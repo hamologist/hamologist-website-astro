@@ -6,6 +6,7 @@ const projectCollection = defineCollection({
     pubDate: z.string(),
     description: z.string(),
     author: z.string(),
+    rank: z.number().optional(),
   }),
 });
 

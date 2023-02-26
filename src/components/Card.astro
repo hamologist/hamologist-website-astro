@@ -1,0 +1,79 @@
+---
+export type Props = {
+  title: string;
+  description: string;
+  demoLink?: string;
+  postLink?: string;
+  repoLink?: string;
+};
+
+const props = Astro.props;
+---
+
+<style>
+  .card {
+    background: #f9f9f9;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a.title {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: black;
+  }
+
+  a.title:hover {
+    text-decoration: underline;
+  }
+
+  .description {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .links {
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .mini-card {
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    padding: 0.5rem;
+    background: #f6f6f6;
+  }
+
+  .links a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="card">
+  <div>
+    <a href="#" class="title">{props.title}</a>
+    <p class="description">{props.description}</p>
+  </div>
+  <div class="links">
+    <a href="#">
+      <div class="mini-card">
+        <span>Read More</span>
+      </div>
+    </a>
+    <a href="#">
+      <div class="mini-card">
+        <span>Github</span>
+      </div>
+    </a>
+  </div>
+</div>

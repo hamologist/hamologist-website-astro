@@ -1,8 +1,12 @@
 ---
 import Layout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import Card from '../components/Card.astro';
 
-const allProjects = await getCollection('project');
+const allProjects = (await getCollection('project', (entry) => {
+  return entry.data.rank !== undefined;
+}))
+  .sort((a, b) => a.data.rank! - b.data.rank!);
 ---
 
 <style>
@@ -30,6 +34,17 @@ const allProjects = await getCollection('project');
     font-size: 1.2rem;
     font-weight: 600;
   }
+
+  .card-container {
+    display: grid;
+    grid-gap: 1rem;
+  }
+
+  .card {
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    display: flex;
+  }
 </style>
 
 <Layout title="Hamologist">
@@ -41,6 +56,14 @@ const allProjects = await getCollection('project');
   </section>
   <section class="showcase">
     <p>Projects</p>
+    <div class="card-container">
+      {allProjects.slice(0, 3).map(project => (
+        <Card
+          title={project.data.title}
+          description={project.data.description}
+        />
+      ))}
+    </div>
   </section>
   <section class="showcase">
     <p>Latest Posts</p>
