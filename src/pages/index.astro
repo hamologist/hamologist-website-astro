@@ -2,8 +2,14 @@
 import Layout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import Card from '../components/Card.astro';
+import PostsContainer from '../components/PostsContainer.astro';
 
-const allProjects = (await getCollection('project', (entry) => {
+const rankedProjects = (await getCollection('project', (entry) => {
+  return entry.data.rank !== undefined;
+}))
+  .sort((a, b) => a.data.rank! - b.data.rank!);
+
+const rankedPosts = (await getCollection('blog', (entry) => {
   return entry.data.rank !== undefined;
 }))
   .sort((a, b) => a.data.rank! - b.data.rank!);
@@ -35,15 +41,31 @@ const allProjects = (await getCollection('project', (entry) => {
     font-weight: 600;
   }
 
-  .card-container {
-    display: grid;
-    grid-gap: 1rem;
+  .showcase-header {
+    display: flex;
+    margin-bottom: 1rem;
   }
 
-  .card {
+  .showcase-header a {
+    text-decoration: none;
+    color: var(--primary-text-color);
     border: 1px solid lightgray;
     border-radius: 6px;
-    display: flex;
+    padding: 0.5rem;
+    background: var(--button-background);
+  }
+
+  .showcase-header a:hover {
+    text-decoration: underline;
+  }
+
+  .push {
+    margin-left: auto;
+  }
+
+  .container {
+    display: grid;
+    grid-gap: 1rem;
   }
 </style>
 
@@ -55,9 +77,12 @@ const allProjects = (await getCollection('project', (entry) => {
     <p>I'm a software engineer and this is my little slice of the internet. I keep my projects here and write about technical things I find interesting.</p>
   </section>
   <section class="showcase">
-    <p>Projects</p>
-    <div class="card-container">
-      {allProjects.slice(0, 3).map(project => (
+    <div class="showcase-header">
+      <p>Projects</p>
+      <a class="push" href="#">View All</a>
+    </div>
+    <div class="container">
+      {rankedProjects.slice(0, 3).map(project => (
         <Card
           title={project.data.title}
           description={project.data.description}
@@ -66,7 +91,14 @@ const allProjects = (await getCollection('project', (entry) => {
     </div>
   </section>
   <section class="showcase">
-    <p>Latest Posts</p>
+    <div class="showcase-header">
+      <p>Latest Posts</p>
+      <a class="push" href="#">View All</a>
+    </div>
+    <PostsContainer posts={rankedPosts.map((post) => ({
+      title: post.data.title,
+      url: "#",
+    }))}/>
   </section>
 </Layout>
 

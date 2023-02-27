@@ -1,6 +1,6 @@
 ---
 title: 'Emojify'
-pubDate: 2023-02-26
+pubDate: '2023-02-26'
 description: 'Liven up a message with a randomized assortment of emojis.'
 author: 'Jordan Paris'
 rank: 1

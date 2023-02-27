@@ -1,6 +1,6 @@
 ---
 title: 'Mandelbrot'
-pubDate: 2023-02-26
+pubDate: '2023-02-26'
 description: 'Peer into the mandelbrot set and visualize the power of fractals.'
 author: 'Jordan Paris'
 rank: 2

@@ -12,7 +12,7 @@ const props = Astro.props;
 
 <style>
   .card {
-    background: #f9f9f9;
+    background: var(--secondary-background);
     border: 1px solid lightgray;
     border-radius: 6px;
     padding: 1rem;
@@ -23,7 +23,7 @@ const props = Astro.props;
   a.title {
     font-size: 1.2rem;
     text-decoration: none;
-    color: black;
+    color: var(--main-text-color);
   }
 
   a.title:hover {
@@ -32,7 +32,7 @@ const props = Astro.props;
 
   .description {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--secondary-text-color);
   }
 
   .links {
@@ -42,16 +42,13 @@ const props = Astro.props;
     gap: 0.5rem;
   }
 
-  .mini-card {
+  .links a {
     border: 1px solid lightgray;
     border-radius: 6px;
     padding: 0.5rem;
-    background: #f6f6f6;
-  }
-
-  .links a {
+    background: var(--button-background);
     text-decoration: none;
-    color: black;
+    color: var(--main-text-color);
   }
 
   .links a:hover {
@@ -65,15 +62,7 @@ const props = Astro.props;
     <p class="description">{props.description}</p>
   </div>
   <div class="links">
-    <a href="#">
-      <div class="mini-card">
-        <span>Read More</span>
-      </div>
-    </a>
-    <a href="#">
-      <div class="mini-card">
-        <span>Github</span>
-      </div>
-    </a>
+    <a href="#">Read More</a>
+    <a href="#">Github</a>
   </div>
 </div>
