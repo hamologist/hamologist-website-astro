@@ -1,6 +1,7 @@
 ---
 export type Props = {
   title: string;
+  slug: string;
   description: string;
   demoLink?: string;
   postLink?: string;
@@ -62,7 +63,7 @@ const props = Astro.props;
     <p class="description">{props.description}</p>
   </div>
   <div class="links">
-    <a href="#">Read More</a>
+    <a href={`/projects/${props.slug}`}>Read More</a>
     <a href="#">Github</a>
   </div>
 </div>

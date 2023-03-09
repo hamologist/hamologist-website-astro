@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const rankedProjects = (await getCollection('project'))
+  .sort((a, b) => a.data.rank! - b.data.rank!);
+---
+
+<style>
+  header {
+    font-size: 2.0rem;
+    font-weight: 600;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
+  section {
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
+  .container {
+    display: grid;
+    grid-gap: 1rem;
+  }
+</style>
+
+<Layout title="Projects">
+  <header>
+    <span>Projects</span>
+  </header>
+  <section>
+    <div class="container">
+      {rankedProjects.map(project => (
+        <Card
+          title={project.data.title}
+          description={project.data.description}
+          slug={project.slug}
+        />
+      ))}
+    </div>
+  </section>
+</Layout>

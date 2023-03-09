@@ -79,13 +79,14 @@ const rankedPosts = (await getCollection('blog', (entry) => {
   <section class="showcase">
     <div class="showcase-header">
       <p>Projects</p>
-      <a class="push" href="#">View All</a>
+      <a class="push" href="/projects">View All</a>
     </div>
     <div class="container">
       {rankedProjects.slice(0, 3).map(project => (
         <Card
           title={project.data.title}
           description={project.data.description}
+          slug={project.slug}
         />
       ))}
     </div>
@@ -93,11 +94,11 @@ const rankedPosts = (await getCollection('blog', (entry) => {
   <section class="showcase">
     <div class="showcase-header">
       <p>Latest Posts</p>
-      <a class="push" href="#">View All</a>
+      <a class="push" href="/blogs">View All</a>
     </div>
-    <PostsContainer posts={rankedPosts.map((post) => ({
+    <PostsContainer posts={rankedPosts.slice(0, 3).map((post) => ({
       title: post.data.title,
-      url: "#",
+      url: `/blogs/${post.slug}`,
     }))}/>
   </section>
 </Layout>

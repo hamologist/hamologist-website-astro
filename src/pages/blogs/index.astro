@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import PostsContainer from '../../components/PostsContainer.astro';
+
+const rankedPosts = (await getCollection('blog'))
+  .sort((a, b) => a.data.rank! - b.data.rank!);
+---
+
+<style>
+  header {
+    font-size: 2.0rem;
+    font-weight: 600;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
+  section {
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+</style>
+
+<Layout title="Hamologist">
+  <header>
+    <span>Posts</span>
+  </header>
+  <section>
+    <PostsContainer posts={rankedPosts.map((post) => ({
+      title: post.data.title,
+      url: `/blogs/${post.slug}`,
+    }))}/>
+  </section>
+</Layout>
+
