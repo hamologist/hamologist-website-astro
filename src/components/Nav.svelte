@@ -1,12 +1,18 @@
 <style>
   nav {
     font-size: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
     margin-left: 1.5rem;
     margin-right: 1.5rem;
     margin-bottom: 1.5rem;
+  }
+
+  .container {
     display: flex;
+    margin-left: auto;
+    margin-right: auto;
     align-items: center;
+    max-width: var(--content-width);
   }
 
   .push-right {
@@ -34,10 +40,7 @@
   @media screen and (min-width: 636px) {
     .nav-items {
       display: flex;
-    }
-
-    .nav-items a {
-      padding: 15px 20px;
+      gap: 2rem;
     }
 
     .nav-menu {
@@ -114,23 +117,24 @@
 </script>
 
 <nav>
-  <div>
-    <a href="/">
-      <img src="/icons/house.svg" />
-      <span>Jordan Paris</span>
-    </a>
-  </div>
-  <div class="push-right">
-    <button class="nav-menu" on:click={handleNavMenuClick}>
-      <img src="/icons/menu.svg" />
-    </button>
-    <div class="nav-items" class:show-nav-menu={showNavMenu}>
-      <button class="nav-close" on:click={handleNavCloseClick}>
-        <img src="/icons/cancel.svg" />
+  <div class="container">
+    <div>
+      <a href="/">
+        <img src="/icons/house.svg" />
+        <span>Jordan Paris</span>
+      </a>
+    </div>
+    <div class="push-right">
+      <button class="nav-menu" on:click={handleNavMenuClick}>
+        <img src="/icons/menu.svg" />
       </button>
-      <a href="/">Home</a>
-      <a href="/projects">Projects</a>
-      <a href="/blog">Blog</a>
+      <div class="nav-items" class:show-nav-menu={showNavMenu}>
+        <button class="nav-close" on:click={handleNavCloseClick}>
+          <img src="/icons/cancel.svg" />
+        </button>
+        <a href="/projects">Projects</a>
+        <a href="/blog">Blog</a>
+      </div>
     </div>
   </div>
 </nav>

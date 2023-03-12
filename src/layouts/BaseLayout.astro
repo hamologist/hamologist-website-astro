@@ -10,16 +10,15 @@ export interface Props {
 const { title } = Astro.props;
 ---
 <style>
-  .container {
+  main {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+  
+  .main-container {
     margin-left: auto;
     margin-right: auto;
     max-width: var(--content-width);
-  }
-
-  .footer-container {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 400px;
   }
 </style>
 
@@ -44,14 +43,12 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-    <div class="container">
-      <Nav client:load />
-    </div>
-    <div class="container">
-      <slot />
-    </div>
-    <div class="footer-container">
-      <Footer />
-    </div>
+    <Nav client:load />
+    <main>
+      <div class="main-container">
+        <slot />
+      </div>
+    </main>
+    <Footer />
 	</body>
 </html>

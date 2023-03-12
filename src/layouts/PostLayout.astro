@@ -7,15 +7,7 @@ export interface Props {
 
 const { title } = Astro.props;
 ---
-<style>
-  section {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-  }
-</style>
 
 <BaseLayout title={title}>
-  <section>
-		<slot />
-  </section>
+  <slot />
 </BaseLayout>
