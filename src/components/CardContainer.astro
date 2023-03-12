@@ -1,0 +1,22 @@
+<style>
+  .card-container {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media screen and (min-width: 636px) {
+    .card-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 936px) {
+    .card-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<div class="card-container">
+  <slot />
+</div>

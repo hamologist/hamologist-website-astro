@@ -2,7 +2,8 @@
 import Layout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import Card from '../components/Card.astro';
-import PostsContainer from '../components/PostsContainer.astro';
+import CardContainer from '../components/CardContainer.astro';
+import PostContainer from '../components/PostContainer.astro';
 
 const rankedProjects = (await getCollection('project', (entry) => {
   return entry.data.rank !== undefined;
@@ -62,11 +63,6 @@ const rankedPosts = (await getCollection('blog', (entry) => {
   .push {
     margin-left: auto;
   }
-
-  .container {
-    display: grid;
-    grid-gap: 1rem;
-  }
 </style>
 
 <Layout title="Hamologist">
@@ -81,7 +77,7 @@ const rankedPosts = (await getCollection('blog', (entry) => {
       <p>Projects</p>
       <a class="push" href="/projects">View All</a>
     </div>
-    <div class="container">
+    <CardContainer>
       {rankedProjects.slice(0, 3).map(project => (
         <Card
           title={project.data.title}
@@ -89,16 +85,16 @@ const rankedPosts = (await getCollection('blog', (entry) => {
           slug={project.slug}
         />
       ))}
-    </div>
+    </CardContainer>
   </section>
   <section class="showcase">
     <div class="showcase-header">
       <p>Latest Posts</p>
-      <a class="push" href="/blogs">View All</a>
+      <a class="push" href="/blog">View All</a>
     </div>
-    <PostsContainer posts={rankedPosts.slice(0, 3).map((post) => ({
+    <PostContainer posts={rankedPosts.slice(0, 3).map((post) => ({
       title: post.data.title,
-      url: `/blogs/${post.slug}`,
+      url: `/blog/${post.slug}`,
     }))}/>
   </section>
 </Layout>

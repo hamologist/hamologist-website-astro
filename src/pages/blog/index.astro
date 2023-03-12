@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import PostsContainer from '../../components/PostsContainer.astro';
+import PostContainer from '../../components/PostContainer.astro';
 
 const rankedPosts = (await getCollection('blog'))
   .sort((a, b) => a.data.rank! - b.data.rank!);
@@ -27,9 +27,9 @@ const rankedPosts = (await getCollection('blog'))
     <span>Posts</span>
   </header>
   <section>
-    <PostsContainer posts={rankedPosts.map((post) => ({
+    <PostContainer posts={rankedPosts.map((post) => ({
       title: post.data.title,
-      url: `/blogs/${post.slug}`,
+      url: `/blog/${post.slug}`,
     }))}/>
   </section>
 </Layout>

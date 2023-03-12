@@ -4,6 +4,7 @@
   --button-background: #f6f6f6;
   --main-text-color: black;
   --secondary-text-color: #666;
+  --content-width: 1160px;
 }
 
 *,
@@ -12,20 +13,19 @@
   box-sizing: border-box;
 }
 
-/*
-* {
-  outline: 1px solid lightgray;
-}
-*/
-
 html {
   height: 100%;
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
+html.has-modal-open {
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   min-height: 100%;
+  max-width: 
   display: flex;
   flex-direction: column;
   background: var(--main-background);

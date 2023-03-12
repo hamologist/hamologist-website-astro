@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/BaseLayout.astro';
+import CardContainer from '../../components/CardContainer.astro';
 import Card from '../../components/Card.astro';
 import { getCollection } from 'astro:content';
 
@@ -20,11 +21,6 @@ const rankedProjects = (await getCollection('project'))
     margin-left: 1.5rem;
     margin-right: 1.5rem;
   }
-
-  .container {
-    display: grid;
-    grid-gap: 1rem;
-  }
 </style>
 
 <Layout title="Projects">
@@ -32,7 +28,7 @@ const rankedProjects = (await getCollection('project'))
     <span>Projects</span>
   </header>
   <section>
-    <div class="container">
+    <CardContainer>
       {rankedProjects.map(project => (
         <Card
           title={project.data.title}
@@ -40,6 +36,6 @@ const rankedProjects = (await getCollection('project'))
           slug={project.slug}
         />
       ))}
-    </div>
+    </CardContainer>
   </section>
 </Layout>
