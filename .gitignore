@@ -20,6 +20,7 @@ pnpm-debug.log*
 # development tooling
 ~/
 .vscode/
+.idea/
 
 # macOS-specific files
 .DS_Store
