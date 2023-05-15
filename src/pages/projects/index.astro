@@ -1,11 +1,11 @@
 ---
 import Layout from '../../layouts/BaseLayout.astro';
 import CardContainer from '../../components/CardContainer.astro';
-import Card from '../../components/Card.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const rankedProjects = (await getCollection('project'))
-  .sort((a, b) => a.data.rank! - b.data.rank!);
+  .sort((a, b) => (a.data.rank ?? Number.MAX_SAFE_INTEGER) - (b.data.rank ?? Number.MAX_SAFE_INTEGER));
 ---
 
 <style>
@@ -26,10 +26,12 @@ const rankedProjects = (await getCollection('project'))
   <section>
     <CardContainer>
       {rankedProjects.map(project => (
-        <Card
+        <ProjectCard
           title={project.data.title}
           description={project.data.description}
           slug={project.slug}
+          repoLink={project.data.repoLink}
+          primaryLink={project.data.primaryLink}
         />
       ))}
     </CardContainer>

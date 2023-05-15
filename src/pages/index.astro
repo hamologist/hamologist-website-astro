@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import Card from '../components/Card.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 import CardContainer from '../components/CardContainer.astro';
 import PostContainer from '../components/PostContainer.astro';
 
@@ -73,10 +73,12 @@ const rankedPosts = (await getCollection('blog', (entry) => {
     </div>
     <CardContainer>
       {rankedProjects.slice(0, 3).map(project => (
-        <Card
+        <ProjectCard
           title={project.data.title}
           description={project.data.description}
           slug={project.slug}
+          repoLink={project.data.repoLink}
+          primaryLink={project.data.primaryLink}
         />
       ))}
     </CardContainer>

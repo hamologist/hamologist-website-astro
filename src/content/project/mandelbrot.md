@@ -4,6 +4,8 @@ pubDate: '2023-02-26'
 description: 'Peer into the mandelbrot set and visualize the power of fractals.'
 author: 'Jordan Paris'
 rank: 2
+repoLink: 'https://www.github.com/hamologist/mandelbrot'
+primaryLink: 'https://www.github.com/hamologist/mandelbrot'
 ---
 
 The Mandelbrot project includes both a desktop and HTML explorer.

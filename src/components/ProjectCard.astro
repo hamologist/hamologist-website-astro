@@ -3,12 +3,11 @@ export type Props = {
   title: string;
   slug: string;
   description: string;
-  demoLink?: string;
-  postLink?: string;
+  primaryLink?: string;
   repoLink?: string;
 };
 
-const { title, slug, description, demoLink, postLink, repoLink } = Astro.props;
+const { title, slug, description, primaryLink, repoLink } = Astro.props;
 ---
 
 <style>
@@ -59,11 +58,12 @@ const { title, slug, description, demoLink, postLink, repoLink } = Astro.props;
 
 <div class="card">
   <div>
-    <a href="#" class="title">{title}</a>
+    <a href={primaryLink ?? `/projects/${slug}`} class="title">{title}</a>
     <p class="description">{description}</p>
   </div>
   <div class="links">
     <a href={`/projects/${slug}`}>Read More</a>
-    <a href="#">Github</a>
+    {repoLink !== undefined &&
+      <a href={`${repoLink}`}>Github</a>}
   </div>
 </div>
