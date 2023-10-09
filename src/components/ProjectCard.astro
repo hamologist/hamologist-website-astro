@@ -3,11 +3,12 @@ export type Props = {
   title: string;
   slug: string;
   description: string;
-  primaryLink?: string;
+  disablePost: boolean;
+  demoLink?: string;
   repoLink?: string;
 };
 
-const { title, slug, description, primaryLink, repoLink } = Astro.props;
+const { title, slug, description, disablePost, demoLink, repoLink } = Astro.props;
 ---
 
 <style>
@@ -58,11 +59,24 @@ const { title, slug, description, primaryLink, repoLink } = Astro.props;
 
 <div class="card">
   <div>
-    <a href={primaryLink ?? `/projects/${slug}`} class="title">{title}</a>
+    <a href={(() => {
+      if (demoLink !== undefined) {
+        return demoLink;
+      } else if (disablePost === false) {
+        return `/posts/${slug}`;
+      } else if (repoLink !== undefined) {
+        return repoLink;
+      } else {
+        return `#`;
+      }
+    })()} class="title">{title}</a>
     <p class="description">{description}</p>
   </div>
   <div class="links">
-    <a href={`/projects/${slug}`}>Read More</a>
+    {disablePost === false &&
+      <a href={`/posts/${slug}`}>Read More</a>}
+    {demoLink !== undefined &&
+      <a href={`${demoLink}`}>Demo</a>}
     {repoLink !== undefined &&
       <a href={`${repoLink}`}>Github</a>}
   </div>

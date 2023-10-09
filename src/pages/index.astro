@@ -78,11 +78,12 @@ const rankedPosts = (await getCollection('blog', (entry) => {
           description={project.data.description}
           slug={project.slug}
           repoLink={project.data.repoLink}
-          primaryLink={project.data.primaryLink}
+          demoLink={project.data.demoLink}
         />
       ))}
     </CardContainer>
   </section>
+  <!-- Disabled until actual posts have been written
   <section class="showcase">
     <div class="showcase-header">
       <p>Latest Posts</p>
@@ -93,5 +94,6 @@ const rankedPosts = (await getCollection('blog', (entry) => {
       url: `/blog/${post.slug}`,
     }))}/>
   </section>
+  -->
 </Layout>
 

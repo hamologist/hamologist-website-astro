@@ -29,3 +29,8 @@ body {
   flex-direction: column;
   background: var(--main-background);
 }
+
+a:link, a:visited {
+  color: #0000FF;
+  text-decoration: none;
+}

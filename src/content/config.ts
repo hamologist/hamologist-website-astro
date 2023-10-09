@@ -7,8 +7,9 @@ const projectCollection = defineCollection({
     description: z.string(),
     author: z.string(),
     rank: z.number().optional(),
-    primaryLink: z.string().optional(),
+    demoLink: z.string().optional(),
     repoLink: z.string().optional(),
+    disablePost: z.boolean().optional(),
   }),
 });
 

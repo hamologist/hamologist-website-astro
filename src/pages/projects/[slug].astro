@@ -8,7 +8,8 @@ type Props = {
 
 
 export async function getStaticPaths() {
-  const allProjects = await getCollection('project');
+  const allProjects = (await getCollection('project'))
+      .filter(entry => entry.data.disablePost !== true);
 
   return allProjects.map(project => ({
     params: { slug: project.slug },

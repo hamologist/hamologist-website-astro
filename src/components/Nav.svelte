@@ -133,7 +133,9 @@
           <img src="/icons/cancel.svg" />
         </button>
         <a href="/projects">Projects</a>
+        <!-- Disabled until actual blog posts are written
         <a href="/blog">Blog</a>
+        -->
       </div>
     </div>
   </div>

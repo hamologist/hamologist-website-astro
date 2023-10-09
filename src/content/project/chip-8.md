@@ -5,7 +5,7 @@ description: 'Interpret the ancient text and run CHIP-8 applications.'
 author: 'Jordan Paris'
 rank: 4
 repoLink: 'https://github.com/hamologist/chip-8'
-primaryLink: 'https://github.com/hamologist/chip-8'
+demoLink: 'https://old-site.hamologist.com/chip-eight/'
 ---
 
 The CHIP-8 project includes both a desktop and HTML interpreter. The desktop application should be built using code provided in the CHIP-8 GitHub repo below.

@@ -5,7 +5,7 @@ description: 'Liven up a message with a randomized assortment of emojis.'
 author: 'Jordan Paris'
 rank: 1
 repoLink: 'https://www.github.com/hamologist/emojify'
-primaryLink: 'https://www.github.com/hamologist/emojify'
+demoLink: 'https://old-site.hamologist.com/emojify/'
 ---
 
 Emojify consists of a number services that enable users to uniquely emojify a message.

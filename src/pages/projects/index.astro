@@ -30,8 +30,9 @@ const rankedProjects = (await getCollection('project'))
           title={project.data.title}
           description={project.data.description}
           slug={project.slug}
+          disablePost={!!project.data.disablePost}
           repoLink={project.data.repoLink}
-          primaryLink={project.data.primaryLink}
+          demoLink={project.data.demoLink}
         />
       ))}
     </CardContainer>

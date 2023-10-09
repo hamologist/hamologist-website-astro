@@ -5,7 +5,6 @@ description: "It's time to let luck decide! Grab your D20 and hope for the best!
 author: 'Jordan Paris'
 rank: 3
 repoLink: 'https://github.com/hamologist/dice-roll'
-primaryLink: 'https://github.com/hamologist/dice-roll'
 ---
 
 Dice Roll simulates rolling virtual dice via a number of different services.
