@@ -1,7 +1,6 @@
 ---
-import Footer from '../components/Footer.astro';
-import Nav from '../components/Nav.svelte';
-import '../styles/global.css';
+import Footer from '~/components/Footer.astro';
+import '~/styles/global.css';
 
 export interface Props {
 	title: string;
@@ -9,46 +8,28 @@ export interface Props {
 
 const { title } = Astro.props;
 ---
-<style>
-  main {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-  }
-  
-  .main-container {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: var(--content-width);
-  }
-</style>
-
 <script>
-  import { openModals } from '../services/store';
-
-  openModals.subscribe(val => {
-    if (val.size) {
-      document.documentElement.classList.add('has-modal-open');
-    } else {
-      document.documentElement.classList.remove('has-modal-open');
-    }
-  })
+  // TODO: Reimplement mobile nav modal
 </script>
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body>
-    <Nav client:load />
-    <main>
-      <div class="main-container">
+	<body class="flex flex-col min-h-full bg-neutral-200">
+    <!-- >
+      Add back missing Nav block
+    <-->
+    <main class="mx-4">
+      <div class="mx-auto max-w-6xl">
         <slot />
       </div>
     </main>
     <Footer />
 	</body>
 </html>
+

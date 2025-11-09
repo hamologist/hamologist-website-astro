@@ -1,21 +1,16 @@
 {
-	"name": "",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro"
-	},
-	"dependencies": {
-		"@astrojs/svelte": "^4.0.3",
-		"astro": "^3.2.3",
-		"svelte": "^4.2.1"
-	},
-	"devDependencies": {
-		"prettier": "^3.0.3",
-		"prettier-plugin-astro": "^0.12.0"
-	}
+  "name": "temp-upgrade",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.17",
+    "astro": "^5.15.4",
+    "tailwindcss": "^4.1.17"
+  }
 }

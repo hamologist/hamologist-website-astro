@@ -1,9 +1,10 @@
 ---
-import Layout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import ProjectCard from '../components/ProjectCard.astro';
-import CardContainer from '../components/CardContainer.astro';
-import PostContainer from '../components/PostContainer.astro';
+
+import Layout from '~/layouts/BaseLayout.astro';
+import ProjectCard from '~/components/ProjectCard.astro';
+import CardContainer from '~/components/CardContainer.astro';
+import PostContainer from '~/components/PostContainer.astro';
 
 const rankedProjects = (await getCollection('project', (entry) => {
   return entry.data.rank !== undefined;
@@ -76,9 +77,10 @@ const rankedPosts = (await getCollection('blog', (entry) => {
         <ProjectCard
           title={project.data.title}
           description={project.data.description}
-          slug={project.slug}
+          slug={project.id}
           repoLink={project.data.repoLink}
           demoLink={project.data.demoLink}
+          disablePost={false}
         />
       ))}
     </CardContainer>
@@ -96,4 +98,5 @@ const rankedPosts = (await getCollection('blog', (entry) => {
   </section>
   -->
 </Layout>
+
 
