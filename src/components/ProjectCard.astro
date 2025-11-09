@@ -3,33 +3,34 @@ export type Props = {
   title: string;
   slug: string;
   description: string;
-  disablePost: boolean;
-  demoLink?: string;
-  repoLink?: string;
+  disablePost?: boolean;
+  demoLink?: string | undefined;
+  repoLink?: string | undefined;
 };
 
-const { title, slug, description, disablePost, demoLink, repoLink } = Astro.props;
+const {
+  title,
+  slug,
+  description,
+  disablePost,
+  demoLink,
+  repoLink
+} = Astro.props;
+
+function generateTitleHref() {
+  if (demoLink !== undefined) {
+    return demoLink;
+  } else if (disablePost === false) {
+    return `/posts/${slug}`;
+  } else if (repoLink !== undefined) {
+    return repoLink;
+  }
+
+  return `#`;
+}
 ---
 
 <style>
-  .card {
-    border: 1px solid lightgray;
-    border-radius: 6px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-
-  a.title {
-    font-size: 1.2rem;
-    text-decoration: none;
-    color: var(--main-text-color);
-  }
-
-  a.title:hover {
-    text-decoration: underline;
-  }
-
   .description {
     font-size: 0.9rem;
     color: var(--secondary-text-color);
@@ -50,33 +51,40 @@ const { title, slug, description, disablePost, demoLink, repoLink } = Astro.prop
     text-decoration: none;
     color: var(--main-text-color);
   }
-
-  .links a:hover {
-    text-decoration: underline;
-  }
 </style>
 
-<div class="card bg-neutral-100">
+<div class="flex flex-col space-y-2 border border-gray-300 rounded-md p-4 bg-neutral-50">
   <div>
-    <a href={(() => {
-      if (demoLink !== undefined) {
-        return demoLink;
-      } else if (disablePost === false) {
-        return `/posts/${slug}`;
-      } else if (repoLink !== undefined) {
-        return repoLink;
-      } else {
-        return `#`;
-      }
-    })()} class="title">{title}</a>
-    <p class="description">{description}</p>
+    <a
+      class="text-xl hover:underline"
+      href={generateTitleHref()}
+    >
+        {title}
+      </a>
   </div>
-  <div class="links">
-    {disablePost === false &&
-      <a href={`/posts/${slug}`}>Read More</a>}
-    {demoLink !== undefined &&
-      <a href={`${demoLink}`}>Demo</a>}
-    {repoLink !== undefined &&
-      <a href={`${repoLink}`}>Github</a>}
+  <div>
+    <p class="text-sm text-neutral-600">{description}</p>
+  </div>
+  <div class="flex flex-wrap gap-2 text-sm">
+    {(() => {
+      const linkBuilder = (href: string, inner: string) => (
+        <a
+          class="bg-neutral-100 rounded-md border border-gray-300 p-2 hover:underline"
+          href={href}
+        >{inner}</a>
+      );
+
+      let result = [];
+      if (disablePost === false) {
+        result.push(linkBuilder(`/posts/${slug}`, 'Read More'))
+      }
+      if (demoLink !== undefined) {
+        result.push(linkBuilder(demoLink, 'Demo'))
+      }
+      if (repoLink !== undefined) {
+        result.push(linkBuilder(repoLink, "Github"))
+      }
+      return result;
+    })()}
   </div>
 </div>

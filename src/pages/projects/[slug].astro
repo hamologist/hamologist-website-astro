@@ -1,5 +1,5 @@
 ---
-import { getCollection, CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry, render } from 'astro:content';
 import PostLayout from '~/layouts/PostLayout.astro';
 
 type Props = {
@@ -12,13 +12,13 @@ export async function getStaticPaths() {
       .filter(entry => entry.data.disablePost !== true);
 
   return allProjects.map(project => ({
-    params: { slug: project.slug },
+    params: { slug: project.id },
     props: { entry: project },
   }));
 }
 
 const { entry } = Astro.props as Props;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 <PostLayout title={entry.data.title}>
   <Content />

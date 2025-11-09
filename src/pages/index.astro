@@ -17,60 +17,24 @@ const rankedPosts = (await getCollection('blog', (entry) => {
   .sort((a, b) => a.data.rank! - b.data.rank!);
 ---
 
-<style>
-  header {
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
-
-  p {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .showcase {
-    margin-top: 1.5rem;
-  }
-
-  .showcase p {
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
-
-  .showcase-header {
-    display: flex;
-    margin-bottom: 1rem;
-  }
-
-  .showcase-header a {
-    text-decoration: none;
-    color: var(--primary-text-color);
-    border: 1px solid lightgray;
-    border-radius: 6px;
-    padding: 0.5rem;
-    background: var(--button-background);
-  }
-
-  .showcase-header a:hover {
-    text-decoration: underline;
-  }
-
-  .push {
-    margin-left: auto;
-  }
-</style>
-
 <Layout title="Hamologist">
-  <header>
-    <p>Hello, I'm Jordan :^)</p>
+  <header class="text-xl font-semibold">
+    <p class="my-2">Hello, I'm Jordan :^)</p>
   </header>
   <section>
-    <p>I'm a software engineer and this is my little slice of the internet. I keep my projects here and write about technical things I find interesting.</p>
+    <p class="my-2">
+      I'm a software engineer and this is my little slice of the internet. I keep my projects here and write about technical things I find interesting.
+    </p>
   </section>
-  <section class="showcase">
-    <div class="showcase-header">
-      <p>Projects</p>
-      <a class="push" href="/projects">View All</a>
+  <section class="mt-6">
+    <div class="flex mb-4">
+      <p class="text-xl font-semibold my-2">Projects</p>
+      <a
+        class="border rounded-md p-2 bg-neutral-100 ml-auto hover:underline"
+        href="/projects"
+      >
+        View All
+      </a>
     </div>
     <CardContainer>
       {rankedProjects.slice(0, 3).map(project => (
@@ -80,7 +44,6 @@ const rankedPosts = (await getCollection('blog', (entry) => {
           slug={project.id}
           repoLink={project.data.repoLink}
           demoLink={project.data.demoLink}
-          disablePost={false}
         />
       ))}
     </CardContainer>

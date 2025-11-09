@@ -29,7 +29,7 @@ const rankedProjects = (await getCollection('project'))
         <ProjectCard
           title={project.data.title}
           description={project.data.description}
-          slug={project.slug}
+          slug={project.id}
           disablePost={!!project.data.disablePost}
           repoLink={project.data.repoLink}
           demoLink={project.data.demoLink}
