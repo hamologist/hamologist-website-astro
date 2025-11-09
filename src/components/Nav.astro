@@ -1,0 +1,54 @@
+<script>
+  import { isNavOpen } from '../stores';
+
+  class NavBar extends HTMLElement {
+    connectedCallback() {
+      const navItems = this.querySelector('div.nav-items');
+      const navMenuButton = this.querySelector('button.nav-menu');
+      const navCloseButton = this.querySelector('button.nav-close')
+
+      navMenuButton?.addEventListener('click', () => {
+        isNavOpen.set(true);
+      });
+      navCloseButton?.addEventListener('click', () => {
+        isNavOpen.set(false);
+      });
+
+      isNavOpen.subscribe((value) => {
+        if (value) {
+          navMenuButton?.classList.add('hidden');
+          navItems?.classList.remove('hidden');
+        } else {
+          navMenuButton?.classList.remove('hidden');
+          navItems?.classList.add('hidden');
+        }
+      });
+    }
+  }
+
+  customElements.define('nav-bar', NavBar);
+</script>
+
+<nav-bar>
+  <div class="flex mx-auto items-center max-w-6xl">
+    <a class="flex space-x-2" href="/">
+      <img src="/icons/house.svg" />
+      <span class="text-2xl">Jordan Paris</span>
+    </a>
+    <div class="ml-auto">
+      <button class="nav-menu">
+        <img src="/icons/menu.svg" />
+      </button>
+      <div class="hidden nav-items">
+        <div class="inset-0 fixed bg-neutral-200 pt-10 pr-6 space-y-4 text-2xl">
+          <div class="flex flex-col justify-start items-end max-w-6xl mx-auto">
+            <button class="nav-close mb-6">
+              <img class="cursor-pointer w-8 h-8" src="/icons/cancel.svg" />
+            </button>
+            <a href="/projects">Projects</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav-bar>
