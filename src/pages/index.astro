@@ -6,12 +6,12 @@ import ProjectCard from '~/components/ProjectCard.astro';
 import CardContainer from '~/components/CardContainer.astro';
 import PostContainer from '~/components/PostContainer.astro';
 
-const rankedProjects = (await getCollection('project', (entry) => {
+const rankedProjects = (await getCollection('projects', (entry) => {
   return entry.data.rank !== undefined;
 }))
   .sort((a, b) => a.data.rank! - b.data.rank!);
 
-const rankedPosts = (await getCollection('blog', (entry) => {
+const rankedPosts = (await getCollection('blogs', (entry) => {
   return entry.data.rank !== undefined;
 }))
   .sort((a, b) => a.data.rank! - b.data.rank!);
@@ -42,6 +42,7 @@ const rankedPosts = (await getCollection('blog', (entry) => {
           title={project.data.title}
           description={project.data.description}
           slug={project.id}
+          disablePost={!!project.data.disablePost}
           repoLink={project.data.repoLink}
           demoLink={project.data.demoLink}
         />

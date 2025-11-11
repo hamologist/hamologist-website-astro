@@ -3,12 +3,12 @@ import { getCollection, type CollectionEntry, render } from 'astro:content';
 import PostLayout from '~/layouts/PostLayout.astro';
 
 type Props = {
-  entry: CollectionEntry<'project'>;
+  entry: CollectionEntry<'projects'>;
 };
 
 
 export async function getStaticPaths() {
-  const allProjects = (await getCollection('project'))
+  const allProjects = (await getCollection('projects'))
       .filter(entry => entry.data.disablePost !== true);
 
   return allProjects.map(project => ({

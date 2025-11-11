@@ -7,7 +7,20 @@ export interface Props {
 
 const { title } = Astro.props;
 ---
+<style>
+  post :global(a) {
+    color: var(--color-blue-500)
+  }
+  post :global(ul) {
+    padding-inline-start: calc(var(--spacing) * 5);
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+</style>
 
 <BaseLayout title={title}>
-  <slot />
+  <post>
+    <slot />
+  </post>
 </BaseLayout>
+

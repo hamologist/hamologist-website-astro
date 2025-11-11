@@ -4,7 +4,7 @@ import CardContainer from '../../components/CardContainer.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
-const rankedProjects = (await getCollection('project'))
+const rankedProjects = (await getCollection('projects'))
   .sort((a, b) => (a.data.rank ?? Number.MAX_SAFE_INTEGER) - (b.data.rank ?? Number.MAX_SAFE_INTEGER));
 ---
 

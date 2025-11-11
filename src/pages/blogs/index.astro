@@ -3,7 +3,7 @@ import Layout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import PostContainer from '../../components/PostContainer.astro';
 
-const rankedPosts = (await getCollection('blog'))
+const rankedPosts = (await getCollection('blogs'))
   .sort((a, b) => a.data.rank! - b.data.rank!);
 ---
 
