@@ -25,7 +25,7 @@ isNavOpen.subscribe((value) => {
 <html class="h-full overflow-hidden" lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
@@ -34,7 +34,7 @@ isNavOpen.subscribe((value) => {
       <Nav />
     </div>
     <main class="mx-6">
-      <div class="mx-auto max-w-6xl">
+      <div class="mx-auto max-w-3xl">
         <slot />
       </div>
     </main>

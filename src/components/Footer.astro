@@ -19,9 +19,9 @@ const socialItems: { title: string, href: string, imgSrc: string }[] = [
 ---
 
 <footer class="mt-auto mx-6 mb-12">
-  <div class="flex space-x-4 mx-auto mt-16 w-md">
+  <div class="flex space-x-4 mx-auto mt-16 max-w-lg">
     {socialItems.map((item) => (
-      <div class="grow basis-0 text-center">
+      <div class="mx-auto text-center">
         <a
           class="flex no-underline text-black hover:underline"
           href={item.href}
