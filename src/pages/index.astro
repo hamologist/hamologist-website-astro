@@ -37,7 +37,7 @@ const rankedPosts = (await getCollection('blogs', (entry) => {
       </a>
     </div>
     <CardContainer>
-      {rankedProjects.slice(0, 3).map(project => (
+      {rankedProjects.slice(0, 4).map(project => (
         <ProjectCard
           title={project.data.title}
           description={project.data.description}
