@@ -8,22 +8,11 @@ const rankedProjects = (await getCollection('projects'))
   .sort((a, b) => (a.data.rank ?? Number.MAX_SAFE_INTEGER) - (b.data.rank ?? Number.MAX_SAFE_INTEGER));
 ---
 
-<style>
-  header {
-    font-size: 2.0rem;
-    font-weight: 600;
-  }
-
-  section {
-    margin-top: 1.5rem;
-  }
-</style>
-
 <Layout title="Projects">
-  <header>
+  <header class="text-4xl font-semibold">
     <span>Projects</span>
   </header>
-  <section>
+  <section class="mt-6">
     <CardContainer>
       {rankedProjects.map(project => (
         <ProjectCard

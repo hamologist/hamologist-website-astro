@@ -5,9 +5,13 @@ description: "It's time to let luck decide! Grab your D20 and hope for the best!
 author: 'Jordan Paris'
 rank: 2
 repoLink: 'https://github.com/hamologist/dice-roll'
+demoLink: '/demos/dice-roll'
 ---
 
 Dice Roll is a Rust project that simulates rolling virtual dice via a number of different frontends.
+
+A demo showcasing the project can be found [here](/demos/dice-roll).
+The demo uses wasm to run the Rust code in your browser.
 
 Services available:
   * [CLI](https://github.com/hamologist/dice-roll?tab=readme-ov-file#cli)

@@ -7,22 +7,11 @@ const rankedPosts = (await getCollection('blogs'))
   .sort((a, b) => a.data.rank! - b.data.rank!);
 ---
 
-<style>
-  header {
-    font-size: 2.0rem;
-    font-weight: 600;
-  }
-
-  section {
-    margin-top: 1.5rem;
-  }
-</style>
-
 <Layout title="Hamologist">
-  <header>
+  <header class="text-4xl font-semibold">
     <span>Posts</span>
   </header>
-  <section>
+  <section class="mt-6">
     <PostContainer posts={rankedPosts.map((post) => ({
       title: post.data.title,
       url: `/blog/${post.id}`,

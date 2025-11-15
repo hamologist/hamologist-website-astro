@@ -3,24 +3,24 @@
 
   class NavBar extends HTMLElement {
     connectedCallback() {
-      const navItems = this.querySelector('div.nav-items');
-      const navMenuButton = this.querySelector('button.nav-menu');
-      const navCloseButton = this.querySelector('button.nav-close')
+      const navItems = this.querySelector('div.nav-items')!;
+      const navMenuButton = this.querySelector('button.nav-menu')!;
+      const navCloseButton = this.querySelector('button.nav-close')!;
 
-      navMenuButton?.addEventListener('click', () => {
+      navMenuButton.addEventListener('click', () => {
         isNavOpen.set(true);
       });
-      navCloseButton?.addEventListener('click', () => {
+      navCloseButton.addEventListener('click', () => {
         isNavOpen.set(false);
       });
 
       isNavOpen.subscribe((value) => {
         if (value) {
-          navMenuButton?.classList.add('hidden');
-          navItems?.classList.remove('hidden');
+          navMenuButton.classList.add('hidden');
+          navItems.classList.remove('hidden');
         } else {
-          navMenuButton?.classList.remove('hidden');
-          navItems?.classList.add('hidden');
+          navMenuButton.classList.remove('hidden');
+          navItems.classList.add('hidden');
         }
       });
     }
