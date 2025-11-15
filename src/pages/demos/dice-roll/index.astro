@@ -1,5 +1,8 @@
 ---
 import Layout from '~/layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content'
+
+const project = await getEntry('projects', 'dice-roll')!;
 ---
 <script>
   import init, { roll } from './wasm';
@@ -8,9 +11,9 @@ import Layout from '~/layouts/BaseLayout.astro';
 
   class DiceRoll extends HTMLElement {
     connectedCallback() {
-      const inputTextarea = this.querySelector<HTMLTextAreaElement>('#input')!;
-      const rollButton = this.querySelector<HTMLButtonElement>('#roll')!;
-      const outputTextarea = this.querySelector<HTMLTextAreaElement>('#output')!;
+      const inputTextarea = this.querySelector<HTMLTextAreaElement>('[data-name="input"]')!;
+      const rollButton = this.querySelector<HTMLButtonElement>('[data-name="roll"]')!;
+      const outputTextarea = this.querySelector<HTMLTextAreaElement>('[data-name="output"]')!;
 
       rollButton.addEventListener('click', () => {
         outputTextarea.textContent = roll(inputTextarea.value);
@@ -21,20 +24,26 @@ import Layout from '~/layouts/BaseLayout.astro';
 </script>
 
 <Layout title="Dice Roll">
-  <header class="text-4xl font-semibold text-center">
-    <span>Dice Roll</span>
-  </header>
+  <div class="flex mb-4">
+    <p class="text-xl font-semibold">Dice Roll</p>
+    <a
+      class="border border-gray-300 rounded-md p-2 bg-neutral-100 ml-auto hover:underline"
+      href=`/projects/${project.id}`
+    >
+      Read More
+    </a>
+  </div>
   <dice-roll>
     <div class="flex flex-col space-y-8 items-center mt-8">
       <div class="flex flex-col w-full">
         <label for="input" class="font-medium">Input</label>
         <textarea
-          id="input"
-          rows="4"
+          data-name="input"
           class="bg-neutral-100 rounded-md border border-gray-300 p-3.5"
+          rows="4"
         >2d20 + 1d10 + 2</textarea>
         <button
-          id="roll"
+          data-name="roll"
           class="text-white bg-blue-500 box-border border border-transparent hover:bg-blue-600
           shadow-xs font-semibold leading-5 rounded-md px-4 py-2.5 focus:outline-none ml-auto mt-4 w-32"
         >
@@ -44,8 +53,8 @@ import Layout from '~/layouts/BaseLayout.astro';
       <div class="flex flex-col w-full">
         <label for="output" class="font-medium">Output</label>
         <textarea
-          id="output"
-          class=" bg-neutral-100 rounded-md border border-gray-300 p-3.5"
+          data-name="output"
+          class="bg-neutral-100 rounded-md border border-gray-300 p-3.5"
           rows="4"
           readonly
           disabled
