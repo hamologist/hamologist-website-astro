@@ -2,30 +2,30 @@
 import Layout from '~/layouts/BaseLayout.astro';
 import { getEntry } from 'astro:content'
 
-const project = await getEntry('projects', 'dice-roll')!;
+const project = await getEntry('projects', 'emojify')!;
 ---
 <script>
-  import init, { roll } from './wasm';
+  import init, { emojify } from './wasm';
 
   await init();
 
-  class DiceRoll extends HTMLElement {
+  class Emojify extends HTMLElement {
     connectedCallback() {
       const inputTextarea = this.querySelector<HTMLTextAreaElement>('[data-name="input"]')!;
-      const rollButton = this.querySelector<HTMLButtonElement>('[data-name="roll"]')!;
+      const emojifyButton = this.querySelector<HTMLButtonElement>('[data-name="emojify"]')!;
       const outputTextarea = this.querySelector<HTMLTextAreaElement>('[data-name="output"]')!;
 
-      rollButton.addEventListener('click', () => {
-        outputTextarea.textContent = roll(inputTextarea.value);
+      emojifyButton.addEventListener('click', () => {
+        outputTextarea.textContent = emojify(inputTextarea.value);
       });
     }
   }
-  customElements.define('app-dice-roll', DiceRoll);
+  customElements.define('app-emojify', Emojify);
 </script>
 
-<Layout title="Dice Roll">
+<Layout title="Emojify">
   <div class="flex mb-4">
-    <p class="text-xl font-semibold">Dice Roll</p>
+    <p class="text-xl font-semibold">Emojify</p>
     <a
       class="border border-gray-300 rounded-md p-2 bg-neutral-100 ml-auto hover:underline"
       href=`/projects/${project.id}`
@@ -33,7 +33,7 @@ const project = await getEntry('projects', 'dice-roll')!;
       Read More
     </a>
   </div>
-  <app-dice-roll>
+  <app-emojify>
     <div class="flex flex-col space-y-8 items-center mt-8">
       <div class="flex flex-col w-full">
         <label for="input" class="font-medium">Input</label>
@@ -41,13 +41,13 @@ const project = await getEntry('projects', 'dice-roll')!;
           data-name="input"
           class="bg-neutral-100 rounded-md border border-gray-300 p-3.5"
           rows="4"
-        >2d20 + 1d10 + 2</textarea>
+        >The message that you would like to emojify!</textarea>
         <button
-          data-name="roll"
+          data-name="emojify"
           class="text-white bg-blue-500 box-border border border-transparent hover:bg-blue-600
           shadow-xs font-semibold leading-5 rounded-md px-4 py-2.5 focus:outline-none ml-auto mt-4 w-32"
         >
-          Roll
+          Emojify
         </button>
       </div>
       <div class="flex flex-col w-full">
@@ -61,5 +61,5 @@ const project = await getEntry('projects', 'dice-roll')!;
         />
       </div>
     </div>
-  </app-dice-roll>
+  </app-emojify>
 </Layout>
