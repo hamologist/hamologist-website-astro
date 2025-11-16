@@ -1,3 +1,4 @@
+src/pages/demos/sudoko-solver/wasm*
 # build output
 dist/
 
