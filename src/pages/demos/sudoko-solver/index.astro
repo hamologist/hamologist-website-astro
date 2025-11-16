@@ -7,77 +7,78 @@ const project = await getEntry('projects', 'sudoko-solver')!;
 <script>
   import init, { solve } from './wasm';
 
+  type SudokoSolverContext = {
+    container: HTMLDivElement;
+    canvas: HTMLCanvasElement;
+    canvasCtx: CanvasRenderingContext2D;
+    blockSelection: [number, number];
+    nodeSize: number;
+    blockSize: number;
+  };
+
   await init();
 
   class SudokoSolver extends HTMLElement {
     connectedCallback() {
-
       const container = this.querySelector('div')!;
       const canvas = this.querySelector('canvas')!;
-      const ctx = canvas.getContext("2d")!;
-
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientWidth;
-
-      const draw = () => {
-        const node_size = container.clientWidth/9;
-        const block_size = container.clientWidth/3;
-
-        // Color the board
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the 9x9 grid
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 1;
-        for (let y = 0; y < 9; y++) {
-          for (let x = 0; x < 9; x++) {
-            ctx.strokeRect(node_size * x, node_size * y, node_size, node_size);
-          }
-        }
-
-        // Draw the bold 3x3 grid
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 5;
-        for (let y = 0; y < 3; y++) {
-          for (let x = 0; x < 3; x++) {
-            ctx.strokeRect(block_size * x, block_size * y, block_size, block_size);
-          }
-        }
+      const ctx: SudokoSolverContext = {
+        canvasCtx: canvas.getContext("2d")!,
+        blockSelection: [0, 0],
+        nodeSize: container.clientWidth / 9,
+        blockSize: container.clientWidth / 3,
+        container,
+        canvas,
       };
-      draw();
+
+      canvas.width = ctx.container.clientWidth;
+      canvas.height = ctx.container.clientWidth;
+      this.draw(ctx);
 
       window.addEventListener("resize", () => {
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientWidth;
-        draw();
+        canvas.width = ctx.container.clientWidth;
+        canvas.height = ctx.container.clientWidth;
+        this.draw(ctx);
       });
 
-      const input = new Int32Array(81);
-      input[8] = 2;
-      input[11] = 7;
-      input[15] = 5;
-      input[16] = 6;
-      input[19] = 8;
-      input[20] = 3;
-      input[29] = 8;
-      input[30] = 1;
-      input[34] = 3;
-      input[36] = 7;
-      input[41] = 8;
-      input[43] = 1;
-      input[48] = 4;
-      input[49] = 7;
-      input[52] = 8;
-      input[54] = 3;
-      input[55] = 4;
-      input[59] = 6;
-      input[68] = 5;
-      input[72] = 2;
-      input[74] = 6;
-      input[76] = 9;
-      input[79] = 7;
-      console.log(solve(input));
+      canvas.addEventListener("mousedown", (e) => {
+        ctx.blockSelection[0] = Math.floor(e.offsetX / ctx.nodeSize);
+        ctx.blockSelection[1] = Math.floor(e.offsetY / ctx.nodeSize);
+        this.draw(ctx);
+      });
+    }
+
+    draw({
+      canvasCtx: ctx,
+      blockSelection: [selectionX, selectionY],
+      nodeSize,
+      blockSize
+    }: SudokoSolverContext) {
+      // Color the board
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+      // Draw the current selected node in the grid
+      ctx.fillStyle = "#2b7fff"
+      ctx.fillRect(nodeSize * selectionX, nodeSize * selectionY, nodeSize, nodeSize);
+
+      // Draw the 9x9 grid
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          ctx.strokeRect(nodeSize * x, nodeSize * y, nodeSize, nodeSize);
+        }
+      }
+
+      // Draw the bold 3x3 grid
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 5;
+      for (let y = 0; y < 3; y++) {
+        for (let x = 0; x < 3; x++) {
+          ctx.strokeRect(blockSize * x, blockSize * y, blockSize, blockSize);
+        }
+      }
     }
   }
   customElements.define('app-sudoko-solver', SudokoSolver);
