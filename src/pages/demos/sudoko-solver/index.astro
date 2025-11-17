@@ -11,72 +11,154 @@ const project = await getEntry('projects', 'sudoko-solver')!;
     container: HTMLDivElement;
     canvas: HTMLCanvasElement;
     canvasCtx: CanvasRenderingContext2D;
+    solveButton: HTMLButtonElement;
+    clearButton: HTMLButtonElement;
+    numpadButtons: [number, HTMLButtonElement][];
     blockSelection: [number, number];
     nodeSize: number;
     blockSize: number;
+    board: number[][];
+    displayError: boolean;
   };
 
   await init();
 
   class SudokoSolver extends HTMLElement {
     connectedCallback() {
-      const container = this.querySelector('div')!;
-      const canvas = this.querySelector('canvas')!;
+      const container: HTMLDivElement = this.querySelector('[data-name="container"]')!;
+      const canvas: HTMLCanvasElement = this.querySelector('[data-name="canvas"]')!;
+
+      const numpadButtons: [number, HTMLButtonElement][] = [];
+      for (let i = 0; i < 10; i++) {
+        numpadButtons.push([i, this.querySelector(`[data-name="numpad-${i}"]`)!]);
+      }
+
       const ctx: SudokoSolverContext = {
+        clearButton: this.querySelector('[data-name="clear"]')!,
+        solveButton: this.querySelector('[data-name="solve"]')!,
         canvasCtx: canvas.getContext("2d")!,
         blockSelection: [0, 0],
         nodeSize: container.clientWidth / 9,
         blockSize: container.clientWidth / 3,
+        board: Array.from({ length: 9 }, () => Array(9).fill(0)),
+        displayError: false,
         container,
         canvas,
+        numpadButtons,
       };
-
-      canvas.width = ctx.container.clientWidth;
-      canvas.height = ctx.container.clientWidth;
-      this.draw(ctx);
 
       window.addEventListener("resize", () => {
         canvas.width = ctx.container.clientWidth;
         canvas.height = ctx.container.clientWidth;
+        ctx.nodeSize = ctx.container.clientWidth / 9;
+        ctx.blockSize = ctx.container.clientWidth / 3;
         this.draw(ctx);
       });
 
-      canvas.addEventListener("mousedown", (e) => {
+      canvas.addEventListener("click", (e) => {
         ctx.blockSelection[0] = Math.floor(e.offsetX / ctx.nodeSize);
         ctx.blockSelection[1] = Math.floor(e.offsetY / ctx.nodeSize);
         this.draw(ctx);
       });
+
+      canvas.addEventListener("keydown", (e) => {
+        const key = Number(e.key);
+
+        if (Number.isNaN(key)) {
+          return;
+        }
+
+        ctx.board[ctx.blockSelection[1]][ctx.blockSelection[0]] = key;
+        ctx.displayError = false;
+        this.draw(ctx);
+      });
+
+      ctx.numpadButtons.map(([num, button]) => {
+        button.addEventListener("click", () => {
+          ctx.board[ctx.blockSelection[1]][ctx.blockSelection[0]] = num;
+          ctx.displayError = false;
+          this.draw(ctx);
+        });
+      });
+
+      ctx.clearButton.addEventListener("click", () => {
+        for (let y = 0; y < 9; y++) {
+          for (let x = 0; x < 9; x++) {
+            ctx.board[y][x] = 0;
+          }
+        }
+
+        ctx.displayError = false;
+        this.draw(ctx);
+      });
+
+      ctx.solveButton.addEventListener("click", () => this.solve(ctx));
+
+      canvas.width = ctx.container.clientWidth;
+      canvas.height = ctx.container.clientWidth;
+      this.draw(ctx);
     }
 
-    draw({
-      canvasCtx: ctx,
-      blockSelection: [selectionX, selectionY],
-      nodeSize,
-      blockSize
-    }: SudokoSolverContext) {
-      // Color the board
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-      // Draw the current selected node in the grid
-      ctx.fillStyle = "#2b7fff"
-      ctx.fillRect(nodeSize * selectionX, nodeSize * selectionY, nodeSize, nodeSize);
-
-      // Draw the 9x9 grid
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 1;
+    solve(ctx: SudokoSolverContext) {
+      const input = new Int32Array(81);
       for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 9; x++) {
-          ctx.strokeRect(nodeSize * x, nodeSize * y, nodeSize, nodeSize);
+          input[(9 * y) + x] = ctx.board[y][x];
+        }
+      }
+
+      try {
+        const result = solve(input);
+
+        for (let y = 0; y < 9; y++) {
+          for (let x = 0; x < 9; x++) {
+            ctx.board[y][x] = result[(9 * y) + x];
+          }
+        }
+      } catch (error) {
+        ctx.displayError = true;
+      }
+
+      this.draw(ctx);
+    }
+
+    draw(ctx: SudokoSolverContext) {
+      // Color the board
+      ctx.canvasCtx.fillStyle = "white";
+      ctx.canvasCtx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+      // Draw the current selected node in the grid
+      ctx.canvasCtx.fillStyle = "#dbeafe"
+      ctx.canvasCtx.fillRect(ctx.nodeSize * ctx.blockSelection[0], ctx.nodeSize * ctx.blockSelection[1], ctx.nodeSize, ctx.nodeSize);
+
+      // Draw the 9x9 grid
+      ctx.canvasCtx.strokeStyle = "black";
+      ctx.canvasCtx.lineWidth = 1;
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          ctx.canvasCtx.strokeRect(ctx.nodeSize * x, ctx.nodeSize * y, ctx.nodeSize, ctx.nodeSize);
         }
       }
 
       // Draw the bold 3x3 grid
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 5;
+      ctx.canvasCtx.strokeStyle = "black";
+      ctx.canvasCtx.lineWidth = 5;
       for (let y = 0; y < 3; y++) {
         for (let x = 0; x < 3; x++) {
-          ctx.strokeRect(blockSize * x, blockSize * y, blockSize, blockSize);
+          ctx.canvasCtx.strokeRect(ctx.blockSize * x, ctx.blockSize * y, ctx.blockSize, ctx.blockSize);
+        }
+      }
+
+      // Draw the current board values
+      ctx.canvasCtx.fillStyle = ctx.displayError ? "red" : "black";
+      ctx.canvasCtx.lineWidth = 1;
+      ctx.canvasCtx.font = `${ctx.nodeSize}px serif`;
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          if (ctx.board[y][x] === 0) {
+            continue;
+          }
+          ctx.canvasCtx.fillText(ctx.board[y][x].toString(), ctx.nodeSize * x + (ctx.nodeSize / 3.8), ctx.nodeSize * y + (ctx.nodeSize / 1.2), ctx.nodeSize);
         }
       }
     }
@@ -95,8 +177,35 @@ const project = await getEntry('projects', 'sudoko-solver')!;
     </a>
   </div>
   <app-sudoko-solver>
-    <div class="w-full">
-      <canvas class="mx-auto" />
+    <div data-name="container" class="flex flex-col w-full">
+      <canvas data-name="canvas" tabindex="1" class="mx-auto" />
+      <div class="flex">
+        {Array(10).fill(0).map((_, i) => (
+          <button
+            data-name=`numpad-${i}`
+            class="bg-blue-100 box-border border border-transparent hover:bg-blue-200
+            shadow-xs font-semibold leading-5 rounded-md py-2.5 focus:outline-none mx-auto mt-4 w-16"
+          >
+            {i}
+          </button>
+        ))}
+      </div>
+      <div class="flex mt-8">
+        <button
+          data-name="clear"
+          class="text-white bg-red-500 box-border border border-transparent hover:bg-red-600
+          shadow-xs font-semibold leading-5 rounded-md px-4 py-2.5 focus:outline-none mx-auto mt-4 w-32"
+        >
+          Clear
+        </button>
+        <button
+          data-name="solve"
+          class="text-white bg-blue-500 box-border border border-transparent hover:bg-blue-600
+          shadow-xs font-semibold leading-5 rounded-md px-4 py-2.5 focus:outline-none mx-auto mt-4 w-32"
+        >
+          Solve
+        </button>
+      </div>
     </div>
   </app-sudoko-solver>
 </Layout>
